@@ -10,11 +10,12 @@
 
 <h1>Candidate is :</h1>
 <h3><%= data.name %></h3>
-<form action="/domain/webdev/<%= data.id %>/interviewed">
-    <button>Interview Done</button>
+<form action="/domain/<%= data.id %>/interviewed">
+    <button type="submit">Interview Done</button>
 </form>
-
-
+<form action="/domain/<%= data.domain %>/interview/random">
+    <button type="submit">Next Candidate</button>
+</form>
     </div>
 </body>
 </html>

@@ -12,13 +12,13 @@
             <% for(d of data) {%>
                 <span>
                     <li><%= d.name %></li>
-                    <form action="/domain/webdev/<%= d._id %>/attendance">
+                    <form action="/domain/<%= d._id %>/attendance">
                     <button type="submit">Present</button>
                     </form>
                 </span>
                 <% } %>
         </ol>
-        <form action="/domain/webdev/interview">
+        <form action="/domain/<%= d.domain %>/interview">
             <button type="submit">Take An Interview</button>
         </form>
     </div>

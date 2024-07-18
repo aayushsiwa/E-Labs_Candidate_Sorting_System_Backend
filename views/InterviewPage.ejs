@@ -6,22 +6,22 @@
     <title>Interview Page</title>
 </head>
 <body>
-    <div class="main">
+    <div>
         <h2>Present Candidate for Web Development Interview</h2>
-        <form action="/domian/webdev/interview/random">
+        <form action="/domain/<%= domain %>/interview/random">
             <button type="submit">Random Call For Interview</button>
         </form>
+
         <ol>
             <% for(d of data) {%>
-                <li><%= d.name %></li>
-                <form action="/domian/webdev/<%= d._id %>/interview/open">
-                    <button>Take Interview</button>
-                </form>
-
+                <span>
+                    <li><%= d.name %></li>
+                    <form action="/domain/<%= d._id %>/interview/openPopup">
+                    <button type="submit">Take Interview</button>
+                    </form>
+                </span>
                 <% } %>
         </ol>
-
-
     </div>
 </body>
 </html>
