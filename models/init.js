@@ -1,24 +1,15 @@
-const mongoose = require("mongoose");
-const Student = require("./studentSchema.js");
+const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
-// Connect to MongoDB
-// get mogoDB_URI from .env file
+// Get MongoDB URI from .env file
 const mongoDB_URL = process.env.MONGODB_URL;
-// console.log(mongoDB_URL);
 
-mongoose
-    .connect(mongoDB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log("Connected to MongoDB");
-        initData(); // Call initData after successful connection
-    })
-    .catch((err) => {
-        console.error("Failed to connect to MongoDB", err);
-    });
+// Define a function to initialize the data
+async function initData(client) {
+    const database = client.db();  // Use the default database specified in the URI
+    const studentsCollection = database.collection("students");  // Replace "students" with your collection name
 
-let initData = () => {
-    let student_1 = new Student({
+    const student_1 = {
         domain: "androiddevelopment",
         kiitemail: "22052736@kiit.ac.in",
         name: "MOHAMMAD DANYAAL",
@@ -36,13 +27,38 @@ let initData = () => {
         existSocieties: "Not Yet",
         whyElabs: "Good Society",
         anythingElse: "Nothing",
+    };
+
+    try {
+        // Insert the student data into the collection
+        const result = await studentsCollection.insertOne(student_1);
+        console.log(`Student data saved successfully with _id: ${result.insertedId}`);
+    } catch (err) {
+        console.error("Error saving student data:", err);
+    }
+}
+
+async function main() {
+    const client = new MongoClient(mongoDB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     });
 
-    student_1
-        .save()
-        .then(() => console.log("Student data saved successfully"))
-        .catch((err) => console.error("Error saving student data:", err))
-        .finally(() => mongoose.connection.close()); // Close connection after saving
-};
+    try {
+        // Connect to the MongoDB cluster
+        await client.connect();
+        console.log("Connected to MongoDB");
 
-initData();
+        // Initialize data
+        await initData(client);
+    } catch (err) {
+        console.error("Failed to connect to MongoDB", err);
+    } finally {
+        // Close the connection to MongoDB
+        await client.close();
+        console.log("Connection to MongoDB closed");
+    }
+}
+
+// Run the main function to connect to the database and initialize data
+main();
