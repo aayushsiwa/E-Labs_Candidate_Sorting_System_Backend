@@ -3,16 +3,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
-require('dotenv').config();
+require("dotenv").config();
 
 let port = 8080;
 
 // Middleware
-app.use(
-    cors({
-        origin: "*",
-    })
-);
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -220,7 +216,7 @@ app.get("/domain/:id/interview/currentDecision", async (req, res) => {
             return res.status(404).send("Student not found");
         }
 
-        res.json({decision:student.decision});
+        res.json({ decision: student.decision });
     } catch (err) {
         console.error("Error fetching current decision:", err);
         res.status(500).send("Error fetching current decision");
