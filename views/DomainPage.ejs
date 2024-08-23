@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Dev Page</title>
-</head>
-<body>
-    <div class="main">
-        <h2>Student Data of Web Development</h2>
-        <ol>
-            <% for(d of data) {%>
-                <span>
-                    <li><%= d.name %></li>
-                    <form action="/domain/<%= d._id %>/attendance">
-                    <button type="submit">Present</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Web Dev Page</title>
+    </head>
+    <body>
+        <div class="main">
+            <% if (data.length > 0) { %>
+            <h2>Student Data of <%= data[0].domain %></h2>
+            <ol>
+                <% data.forEach(student => { %>
+                <li>
+                    <span><%= student.name %></span>
+                    <form
+                        action="/domain/<%= student._id %>/attendance"
+                        method="POST"
+                    >
+                        <button type="submit">Present</button>
                     </form>
-                </span>
-                <% } %>
-        </ol>
-        <form action="/domain/<%= d.domain %>/interview">
-            <button type="submit">Take An Interview</button>
-        </form>
-    </div>
-</body>
+                </li>
+                <% }) %>
+            </ol>
+            <form action="/domain/<%= data[0].domain %>/interview" method="GET">
+                <button type="submit">Take An Interview</button>
+            </form>
+            <% } else { %>
+            <h2>No Student Data Available</h2>
+            <% } %>
+        </div>
+    </body>
 </html>

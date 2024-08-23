@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Page</title>
-</head>
-<body>
-    <div>
-        <h2>Present Candidate for Web Development Interview</h2>
-        <form action="/domain/<%= domain %>/interview/random">
-            <button type="submit">Random Call For Interview</button>
-        </form>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Interview Page</title>
+    </head>
+    <body>
+        <div>
+            <h2>Present Candidate for <%=domain%> Interview</h2>
+            <form action="/domain/<%= domain %>/interview/random">
+                <button type="submit">Random Call For Interview</button>
+            </form>
 
-        <ol>
-            <% for(d of data) {%>
+            <ol>
+                <% for(d of data) {%>
                 <span>
                     <li><%= d.name %></li>
                     <form action="/domain/<%= d._id %>/interview/openPopup">
-                    <button type="submit">Take Interview</button>
+                        <button type="submit">Take Interview</button>
                     </form>
                 </span>
                 <% } %>
-        </ol>
-    </div>
-</body>
+            </ol>
+        </div>
+    </body>
 </html>

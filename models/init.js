@@ -1,4 +1,21 @@
-const Student=require('./studentSchema.js')
+const mongoose = require("mongoose");
+const Student = require("./studentSchema.js");
+require("dotenv").config();
+
+// Connect to MongoDB
+// get mogoDB_URI from .env file
+const mongoDB_URL = process.env.MONGODB_URL;
+// console.log(mongoDB_URL);
+
+mongoose
+    .connect(mongoDB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("Connected to MongoDB");
+        initData(); // Call initData after successful connection
+    })
+    .catch((err) => {
+        console.error("Failed to connect to MongoDB", err);
+    });
 
 let initData = () => {
     let student_1 = new Student({
@@ -20,7 +37,12 @@ let initData = () => {
         whyElabs: "Good Society",
         anythingElse: "Nothing",
     });
-    student_1.save();
-}
+
+    student_1
+        .save()
+        .then(() => console.log("Student data saved successfully"))
+        .catch((err) => console.error("Error saving student data:", err))
+        .finally(() => mongoose.connection.close()); // Close connection after saving
+};
 
 initData();
